@@ -1,0 +1,15 @@
+.git
+.kilo
+Dockerfile
+docker-compose.yml
+Caddyfile
+project.md
+static/audio
+static/backgrounds
+static/**/*.mp3
+static/**/*.m4a
+static/**/*.wav
+static/**/*.flac
+static/**/*.mp4
+static/**/*.webm
+static/**/*.mov

@@ -1,0 +1,16 @@
+lofiplay.ir {
+	reverse_proxy lofiplay:6001
+
+	# Compress responses to save bandwidth (highly optimized)
+	encode zstd gzip
+
+	# Security Headers
+	header {
+		# Disable sniffing content type (prevents malicious file execution)
+		X-Content-Type-Options nosniff
+		# Prevent site from being embedded in iframes (Clickjacking protection)
+		X-Frame-Options DENY
+		# Hide the server software name from hackers
+		-Server
+	}
+}

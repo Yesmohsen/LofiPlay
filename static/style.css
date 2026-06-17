@@ -1,0 +1,391 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body, html {
+    width: 100%;
+    height: 100%;
+    background-color: #000000;
+    color: #ffffff;
+    font-family: monospace;
+    overflow: hidden;
+}
+
+.background {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    object-fit: cover;
+    z-index: 1;
+}
+
+.hidden {
+    display: none !important;
+}
+
+/* Overlay with 75% opacity */
+.overlay {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background-color: rgba(0, 0, 0, 0.75);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 100;
+    cursor: pointer;
+    transition: opacity 0.5s ease;
+}
+
+.overlay h1 {
+    font-size: 2rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% { opacity: 0.6; }
+    50% { opacity: 1; }
+    100% { opacity: 0.6; }
+}
+
+/* UI Elements */
+.ui-container {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    z-index: 10;
+}
+
+.icon {
+    position: absolute;
+    border: 0;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 20px;
+    transition: all 0.2s ease;
+    /* Semi-transparent glassy white with soft depth and subtle glow */
+    color: rgba(255, 255, 255, 0.9);
+    font: inherit;
+    filter: drop-shadow(0 2px 5px rgba(0, 0, 0, 0.6)) drop-shadow(0 0 8px rgba(255, 255, 255, 0.3));
+}
+
+.icon:hover {
+    transform: scale(1.1);
+    color: rgba(255, 255, 255, 0.95);
+    filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.7)) drop-shadow(0 0 15px rgba(255, 255, 255, 0.6));
+}
+
+.icon:focus-visible {
+    outline: 2px solid rgba(255, 255, 255, 0.8);
+    outline-offset: 4px;
+    border-radius: 14px;
+}
+
+input[type=range]:focus-visible::-webkit-slider-thumb {
+    outline: 2px solid rgba(255, 255, 255, 0.8);
+    outline-offset: 2px;
+}
+
+input[type=range]:focus-visible::-moz-range-thumb {
+    outline: 2px solid rgba(255, 255, 255, 0.8);
+    outline-offset: 2px;
+}
+
+/* Top icons bar to organize Info, Background, and Users icons */
+.top-icons-bar {
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    right: 15px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.top-icons-bar .icon {
+    position: relative; /* Override absolute so they sit properly in flex */
+    top: auto; left: auto; right: auto;
+}
+
+/* Left-side group: info + bg toggle */
+.top-icons-left {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+/* Right-side group: visit counter + online users */
+.top-icons-right {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-left: auto;
+}
+
+#info-btn,
+#bg-toggle-btn,
+#visit-icon,
+#online-users {
+    width: 100px;
+    justify-content: center;
+    font-size: 2.2rem;
+}
+
+/* Make the top icons responsive */
+.top-icons-bar svg {
+    width: clamp(26px, 5vw, 48px);
+    height: clamp(26px, 5vw, 48px);
+}
+
+/* Glass Effect applied to Shortcuts Banner, Top Icons, Play Button, Clock, and Volume Control */
+.shortcuts-banner,
+#info-btn,
+#bg-toggle-btn,
+#visit-icon,
+#online-users,
+.clock,
+.volume-control {
+    background-color: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+    border-radius: 14px;
+}
+
+#info-btn,
+#bg-toggle-btn,
+#visit-icon,
+#online-users,
+.volume-control {
+    padding: 12px 16px;
+}
+
+/* Shortcuts Banner */
+.shortcuts-banner {
+    position: absolute;
+    top: 120px; /* Added padding so it doesn't overlap the top icons */
+    left: 15px; /* Align with the new glass backgrounds of the top icons */
+    padding: 12px 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px; /* Increased gap to give larger text some breathing room */
+    font-size: 1.1rem; /* Made the shortcuts text bigger */
+    color: #ffffff;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.8);
+}
+.shortcuts-banner strong {
+    background-color: rgba(255, 255, 255, 0.35);
+    padding: 2px 6px;
+    border-radius: 6px;
+    margin-right: 8px;
+}
+
+/* Center Group: Song Info & Play/Pause */
+.center-container {
+    position: absolute;
+    top: 75%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 350px;
+    gap: 10px;
+}
+.center-container .icon {
+    position: relative;
+    padding: 10px;
+    top: auto; left: auto; transform: none;
+}
+.center-container .icon:hover {
+    transform: scale(1.1);
+}
+.center-container svg {
+    width: clamp(48px, 10vw, 80px);
+    height: clamp(48px, 10vw, 80px);
+}
+
+.song-marquee {
+    width: 100%;
+    overflow: hidden;
+    white-space: nowrap;
+    position: relative;
+    /* Fade edges so text smoothly disappears without hard cuts */
+    mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+    -webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+}
+
+.song-name {
+    display: inline-block;
+    font-size: 1.2rem;
+    color: rgba(255, 255, 255, 0.95);
+    text-shadow: 0 2px 4px rgba(0,0,0,0.8);
+    padding-left: 100%; /* Start off-screen right */
+    animation: scroll-left 15s linear infinite;
+    letter-spacing: 2px;
+}
+
+@keyframes scroll-left {
+    0% { transform: translateX(0%); }
+    100% { transform: translateX(-100%); }
+}
+
+/* Clock styling */
+.clock {
+    position: absolute;
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 8rem;
+    font-weight: bold;
+    letter-spacing: 5px;
+    padding: 20px 50px; /* Space around the clock text for the glass background */
+    
+    /* Glassy Text Effect */
+    color: rgba(255, 255, 255, 0.35); /* Increased opacity for better visibility */
+    -webkit-text-stroke: 2px rgba(255, 255, 255, 0.95); /* Brighter solid white outline */
+    filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.6)); /* Adds depth so it is readable on light backgrounds */
+    
+    /* Slow breathing/pulsing animation */
+    animation: clockPulse 5s infinite ease-in-out;
+}
+
+@keyframes clockPulse {
+    0%, 100% {
+        transform: translate(-50%, -50%) scale(1);
+        opacity: 0.7;
+    }
+    50% {
+        transform: translate(-50%, -50%) scale(1.05);
+        opacity: 1;
+    }
+}
+
+.bottom-right {
+    bottom: 15px; 
+    right: 15px;
+}
+
+/* Custom Volume Slider Styling */
+input[type=range] {
+    -webkit-appearance: none;
+    appearance: none;
+    background: transparent;
+    cursor: pointer;
+    width: 150px;
+    /* Fallback for WebKit fill, to be updated via JS */
+    --vol-fill: 100%;
+}
+input[type=range]:focus {
+    outline: none;
+}
+
+/* WebKit (Chrome, Safari, Edge) */
+input[type=range]::-webkit-slider-runnable-track {
+    width: 100%;
+    height: 6px;
+    background: linear-gradient(to right, rgba(255, 255, 255, 0.9) var(--vol-fill), rgba(255, 255, 255, 0.2) var(--vol-fill));
+    border-radius: 3px;
+}
+input[type=range]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    height: 18px;
+    width: 18px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.9); /* Glassy controller */
+    margin-top: -6px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5), 0 0 10px rgba(255, 255, 255, 0.4);
+}
+
+/* Mozilla Firefox */
+input[type=range]::-moz-range-track {
+    width: 100%;
+    height: 6px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 3px;
+}
+input[type=range]::-moz-range-progress {
+    height: 6px;
+    background: rgba(255, 255, 255, 0.8);
+    border-radius: 3px;
+}
+input[type=range]::-moz-range-thumb {
+    height: 18px;
+    width: 18px;
+    border: none;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.9);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5), 0 0 10px rgba(255, 255, 255, 0.4);
+}
+
+/* =========================================
+   Hide Background Mode
+   ========================================= */
+body.hide-bg .background {
+    display: none !important;
+}
+
+/* Remove the shiny glow from icons in hide-bg mode */
+body.hide-bg .icon {
+    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.8));
+}
+
+/* Stop the clock from pulsing/breathing in hide-bg mode */
+body.hide-bg .clock {
+    animation: none; 
+}
+
+/* Remove the shiny glow from the volume slider in hide-bg mode */
+body.hide-bg input[type=range]::-webkit-slider-thumb,
+body.hide-bg input[type=range]::-moz-range-thumb {
+    box-shadow: 0 2px 4px rgba(0,0,0,0.8);
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+    .volume-control,
+    .shortcuts-banner {
+        display: none !important;
+    }
+
+    .clock {
+        font-size: 4rem;
+        padding: 15px 30px;
+    }
+
+    .top-icons-bar {
+        left: 0;
+        right: 0;
+        padding: 0 15px;
+        gap: 0;
+    }
+    .top-icons-bar svg {
+        width: 22px;
+        height: 22px;
+    }
+    .top-icons-left {
+        flex-direction: column;
+        gap: 4px;
+    }
+    .top-icons-right {
+        margin-left: auto;
+        flex-direction: column-reverse;
+        gap: 4px;
+    }
+    #info-btn,
+    #bg-toggle-btn,
+    #visit-icon,
+    #online-users {
+        padding: 8px;
+        width: 64px;
+        justify-content: center;
+        font-size: 1.4rem;
+    }
+}
