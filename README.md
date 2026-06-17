@@ -1,5 +1,7 @@
 # LofiPlay
 
+[![ghcr.io](https://img.shields.io/badge/ghcr.io-yesmohsen/lofiplay-2496ED?logo=docker&logoColor=white)](https://github.com/Yesmohsen/LofiPlay/pkgs/container/lofiplay)
+
 LofiPlay is a lightweight 24/7 lofi radio website built with Go and static HTML/CSS/JS.
 
 ## Features
