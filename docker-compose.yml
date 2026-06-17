@@ -1,37 +1,14 @@
 services:
   lofiplay:
-    image: ghcr.io/yesmohsen/lofiplay:latest
+    build: .
     container_name: lofiplay
-    pull_policy: always
     restart: unless-stopped
-    expose:
-      - "6001"
-    environment:
-      LOFIPLAY_ADDR: ":6001"
-      LOFIPLAY_AUDIO_DIR: /app/audio
-      LOFIPLAY_BACKGROUNDS_DIR: /app/backgrounds
-      LOFIPLAY_MAX_SSE_PER_IP: "5"
-      LOFIPLAY_VISITS_FILE: /app/data/visits.json
-    volumes:
-      - ${LOFIPLAY_HOST_DIR:-/root/lofiplay}/audio:/app/audio
-      - ${LOFIPLAY_HOST_DIR:-/root/lofiplay}/backgrounds:/app/backgrounds
-      - ${LOFIPLAY_HOST_DIR:-/root/lofiplay}/data:/app/data
-
-  caddy:
-    image: caddy:alpine
-    container_name: lofiplay-caddy
-    command: caddy run --config /etc/caddy/Caddyfile --adapter caddyfile
-    restart: unless-stopped
-    depends_on:
-      - lofiplay
     ports:
-      - "80:80"
-      - "443:443"
+      - "6001:6001"
     volumes:
-      - ./Caddyfile:/etc/caddy/Caddyfile:ro
-      - caddy_data:/data
-      - caddy_config:/config
+      - lofiplay-audio:/app/static/audio
+      - lofiplay-bg:/app/static/backgrounds
 
 volumes:
-  caddy_data:
-  caddy_config:
+  lofiplay-audio:
+  lofiplay-bg:
