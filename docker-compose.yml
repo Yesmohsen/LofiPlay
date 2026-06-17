@@ -13,7 +13,6 @@ services:
       - lofiplay-net
 
   caddy:
-    profiles: ["ssl"]
     image: caddy:alpine
     container_name: lofiplay-caddy
     restart: unless-stopped
