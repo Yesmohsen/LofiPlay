@@ -4,11 +4,11 @@ services:
     container_name: lofiplay
     pull_policy: always
     restart: unless-stopped
-    expose:
-      - "6001"
+    ports:
+      - "6001:6001"
     volumes:
-      - lofiplay-audio:/app/static/audio
-      - lofiplay-bg:/app/static/backgrounds
+      - ${LOFIPLAY_HOST_DIR:-/root/lofiplay}/audio:/app/audio
+      - ${LOFIPLAY_HOST_DIR:-/root/lofiplay}/backgrounds:/app/backgrounds
     networks:
       - lofiplay-net
 
@@ -29,8 +29,6 @@ services:
       - lofiplay-net
 
 volumes:
-  lofiplay-audio:
-  lofiplay-bg:
   caddy_data:
   caddy_config:
 
