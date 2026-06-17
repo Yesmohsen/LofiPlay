@@ -1,49 +1,41 @@
-# LofiPlay
+# LofiPlay 🎵
 
 [![ghcr.io](https://img.shields.io/badge/ghcr.io-yesmohsen/lofiplay-2496ED?logo=docker&logoColor=white)](https://github.com/Yesmohsen/LofiPlay/pkgs/container/lofiplay)
+[![Build and Push Docker Image](https://github.com/Yesmohsen/LofiPlay/actions/workflows/docker.yml/badge.svg)](https://github.com/Yesmohsen/LofiPlay/actions/workflows/docker.yml)
 
-LofiPlay is a lightweight 24/7 lofi radio website built with Go and static HTML/CSS/JS.
+**24/7 Lofi Radio** — [lofiplay.ir](https://lofiplay.ir)
+
+A synchronized lofi music radio station. Every listener hears the same track at the same position, no matter where they are in the world. Built with Go (zero external deps) + vanilla JS.
 
 ## Features
 
-- Continuous MP3 streaming from `audio`
-- Rotating backgrounds from `backgrounds`
-- Current track display
-- Online user count over Server-Sent Events
-- Basic visit counter
-- Docker and Caddy deployment support
+- 🎵 24/7 synchronized audio streaming
+- 🖼️ Hourly rotating background images (same for all users)
+- 📊 Live online user counter + total visit counter
+- ⌨️ Keyboard shortcuts (M = mute, D = distraction-free)
+- 📱 Mobile responsive
+- 🐳 Dockerized (~5MB scratch image)
 
-## Local Development
+## Tech Stack
+
+- **Backend:** Go 1.23 (stdlib only — no third-party modules)
+- **Frontend:** Vanilla HTML/CSS/JS (no frameworks, no build step)
+- **Streaming:** Custom MP3 broadcaster with burst buffer for fast join
+- **Reverse proxy:** Caddy (automatic HTTPS, zstd/gzip compression)
+- **Deploy:** Docker + GitHub Container Registry
+
+## Quick Start
 
 ```sh
-go test ./...
 go run .
 ```
 
 Then open `http://localhost:6001`.
 
-## Media Files
-
-Place audio files in:
-
-```text
-audio
-```
-
-Place background images in:
-
-```text
-backgrounds
-```
-
-Supported background extensions are configured in `static/app.js`.
-
 ## Configuration
 
-The server can be configured with environment variables:
-
 | Variable | Default | Description |
-| --- | --- | --- |
+|---|---|---|
 | `LOFIPLAY_ADDR` | `:6001` | HTTP listen address |
 | `LOFIPLAY_STATIC_DIR` | `./static` | Static asset root |
 | `LOFIPLAY_AUDIO_DIR` | `./audio` | Audio directory |
@@ -51,75 +43,35 @@ The server can be configured with environment variables:
 | `LOFIPLAY_MAX_SSE_PER_IP` | `5` | Max SSE connections per IP |
 | `LOFIPLAY_VISITS_FILE` | `data/visits.json` | Persistent total visit counter file |
 
-## Docker Deployment
-
-The image is automatically built and pushed to GitHub Container Registry on every push to `main`:
-
-```text
-ghcr.io/yesmohsen/lofiplay:latest
-```
-
-To build locally:
+## Docker
 
 ```sh
-docker build -t lofiplay .
-```
+# Pull and run
+docker pull ghcr.io/yesmohsen/lofiplay:latest
+docker run -p 6001:6001 -v /path/to/audio:/app/static/audio -v /path/to/bg:/app/static/backgrounds ghcr.io/yesmohsen/lofiplay:latest
 
-Run with Compose:
-
-```sh
+# Or with Compose
 docker compose up -d
 ```
 
-The Compose file expects media on the host at:
+The image is automatically built and pushed to GitHub Container Registry on every push to `main`.
 
-```text
-/root/lofiplay/audio
-/root/lofiplay/backgrounds
-/root/lofiplay/data
+## Media Files
+
+Audio and background images are **not** included in the Docker image. Mount them at runtime:
+
+```
+/app/static/audio       → MP3 files
+/app/static/backgrounds → images (jpg, jpeg, png, webp, gif, avif)
 ```
 
-You can change the host directory by creating `.env` next to `docker-compose.yml`:
+## Deployment
 
-```sh
-cp .env.example .env
-```
-
-Then edit `LOFIPLAY_HOST_DIR`.
-
-## Moving Servers
-
-The Docker image does not include music or backgrounds. To move to another server, copy these files:
-
-```text
-docker-compose.yml
-Caddyfile
-.env
-```
-
-Also copy your host data folder:
-
-```text
-$LOFIPLAY_HOST_DIR/audio
-$LOFIPLAY_HOST_DIR/backgrounds
-$LOFIPLAY_HOST_DIR/data
-```
-
-On the new server, run:
-
-```sh
-docker compose up -d
-```
+The project includes a `docker-compose.yml` ready for [Dockage](https://dockage.co) or any Docker host. For production with a custom domain, pair with Caddy for automatic HTTPS.
 
 ## Checks
 
 ```sh
-go test ./...
 go vet ./...
+go test ./...
 ```
-
-## Notes
-
-- Total visit counts are persisted to `LOFIPLAY_VISITS_FILE` every 24 hours and during graceful shutdown; the duplicate-IP window remains in memory.
-- MP3 duration and seek sync are estimated from MP3 frame data, so VBR files may not sync perfectly.
-- Keep large media assets out of git. The Docker build excludes bundled media and expects mounted media in production.
