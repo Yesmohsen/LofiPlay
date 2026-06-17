@@ -21,8 +21,8 @@ services:
     ports:
       - "80:80"
       - "443:443"
+    command: caddy reverse-proxy --from lofiplay.ir --to lofiplay:6001
     volumes:
-      - ./Caddyfile:/etc/caddy/Caddyfile:ro
       - caddy_data:/data
       - caddy_config:/config
     networks:
