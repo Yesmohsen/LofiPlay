@@ -1,6 +1,6 @@
 services:
   lofiplay:
-    image: yesmohsen/lofiplay:latest
+    image: ghcr.io/yesmohsen/lofiplay:latest
     container_name: lofiplay
     pull_policy: always
     restart: unless-stopped

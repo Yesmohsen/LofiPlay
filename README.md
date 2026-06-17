@@ -51,7 +51,13 @@ The server can be configured with environment variables:
 
 ## Docker Deployment
 
-Build the image:
+The image is automatically built and pushed to GitHub Container Registry on every push to `main`:
+
+```text
+ghcr.io/yesmohsen/lofiplay:latest
+```
+
+To build locally:
 
 ```sh
 docker build -t lofiplay .
