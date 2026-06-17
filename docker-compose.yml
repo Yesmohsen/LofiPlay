@@ -4,12 +4,36 @@ services:
     container_name: lofiplay
     pull_policy: always
     restart: unless-stopped
-    ports:
-      - "6001:6001"
+    expose:
+      - "6001"
     volumes:
       - lofiplay-audio:/app/static/audio
       - lofiplay-bg:/app/static/backgrounds
+    networks:
+      - lofiplay-net
+
+  caddy:
+    profiles: ["ssl"]
+    image: caddy:alpine
+    container_name: lofiplay-caddy
+    restart: unless-stopped
+    depends_on:
+      - lofiplay
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy_data:/data
+      - caddy_config:/config
+    networks:
+      - lofiplay-net
 
 volumes:
   lofiplay-audio:
   lofiplay-bg:
+  caddy_data:
+  caddy_config:
+
+networks:
+  lofiplay-net:
